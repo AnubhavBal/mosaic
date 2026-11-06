@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment files
+server/.env
+client/.env.local
+.env
+
+# Build outputs
+client/dist/
+dist/
+
+# Uploads and temporary files
+server/uploads/journey-photo-*
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db

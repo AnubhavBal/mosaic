@@ -1,0 +1,21 @@
+{
+  "name": "mosaic-wellness",
+  "version": "1.0.0",
+  "description": "Mosaic Wellness - Product Journey Tracker (MERN Mobile-First Web Application)",
+  "scripts": {
+    "server": "npm --prefix server start",
+    "server:dev": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "build": "npm --prefix client run build"
+  },
+  "keywords": [
+    "mosaic",
+    "wellness",
+    "skincare",
+    "journey",
+    "mern"
+  ],
+  "author": "Mosaic Wellness",
+  "license": "ISC"
+}
