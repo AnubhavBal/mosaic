@@ -16,12 +16,12 @@ export default function Header() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      background: 'rgba(248, 249, 245, 0.92)',
+      background: 'rgba(255, 255, 255, 0.96)',
       backdropFilter: 'blur(10px)',
       position: 'sticky',
       top: 0,
       zIndex: 30,
-      borderBottom: '1px solid rgba(229, 235, 226, 0.6)',
+      borderBottom: '1px solid #E2E8F0',
     }}>
       {/* Brand & Active Product Switcher */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -37,11 +37,11 @@ export default function Header() {
           <span style={{
             fontSize: '15px',
             fontWeight: 800,
-            letterSpacing: '0.06em',
-            color: '#1C3325',
+            letterSpacing: '0.04em',
+            color: '#184B88',
             fontFamily: 'var(--font-heading)',
           }}>
-            MOSAIC
+            BE BODYWISE
           </span>
           <span style={{
             fontSize: '10px',
@@ -49,7 +49,7 @@ export default function Header() {
             letterSpacing: '0.08em',
             padding: '2px 6px',
             background: 'var(--color-primary-light)',
-            color: 'var(--color-primary-dark)',
+            color: 'var(--color-primary)',
             borderRadius: '10px',
             fontWeight: 700,
           }}>
@@ -136,14 +136,14 @@ export default function Header() {
           onClick={() => navigate('/profile')}
           style={{
             background: 'var(--color-primary-light)',
-            border: '1px solid rgba(69, 108, 83, 0.25)',
+            border: '1px solid rgba(24, 75, 136, 0.25)',
             borderRadius: '50%',
             width: '38px',
             height: '38px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'var(--color-primary-dark)',
+            color: 'var(--color-primary)',
             fontWeight: 700,
             fontSize: '13px',
             cursor: 'pointer',

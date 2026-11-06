@@ -95,12 +95,12 @@ export default function PhotoComparison() {
 
       {/* Medical Disclaimer Banner */}
       <div style={{
-        background: '#F0F5EE',
-        border: '1px solid #D6E3D1',
+        background: 'var(--color-primary-subtle)',
+        border: '1px solid #D0E1F3',
         borderRadius: '12px',
         padding: '10px 14px',
         fontSize: '11px',
-        color: '#284534',
+        color: '#133A6B',
         display: 'flex',
         alignItems: 'flex-start',
         gap: '8px',

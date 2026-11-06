@@ -166,14 +166,14 @@ export default function HomeDashboard() {
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
-          background: 'linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)',
-          border: '1px solid #FED7AA',
+          background: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
+          border: '1px solid #BFDBFE',
           padding: '6px 12px',
           borderRadius: '24px',
           boxShadow: 'var(--shadow-sm)',
         }}>
-          <Flame size={18} color="#EA580C" fill="#EA580C" />
-          <span style={{ fontSize: '13px', fontWeight: 800, color: '#C2410C' }}>
+          <Flame size={18} color="#184B88" fill="#184B88" />
+          <span style={{ fontSize: '13px', fontWeight: 800, color: '#184B88' }}>
             {activeJourney?.currentStreak || 0} Day Streak
           </span>
         </div>
@@ -272,7 +272,7 @@ export default function HomeDashboard() {
                 style={{
                   width: `${Math.min(100, (daysUsing / (activeJourney.targetDurationDays || 90)) * 100)}%`,
                   height: '100%',
-                  background: 'linear-gradient(90deg, #456C53 0%, #6BA37D 100%)',
+                  background: 'linear-gradient(90deg, #184B88 0%, #2563EB 100%)',
                   borderRadius: '10px',
                   transition: 'width 0.4s ease',
                 }}
@@ -286,9 +286,9 @@ export default function HomeDashboard() {
       {activeJourney && (
         <section className="wellness-card" style={{
           background: todayCheckedIn
-            ? 'linear-gradient(145deg, #FFFFFF 0%, #F3F8F2 100%)'
-            : 'linear-gradient(145deg, #FFFFFF 0%, #FAFBF8 100%)',
-          border: todayCheckedIn ? '1.5px solid #C4DFC0' : '1px solid var(--color-border)',
+            ? 'linear-gradient(145deg, #FFFFFF 0%, #F0F5FA 100%)'
+            : '#FFFFFF',
+          border: todayCheckedIn ? '1.5px solid #BDD6F0' : '1px solid var(--color-border)',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -315,7 +315,7 @@ export default function HomeDashboard() {
             </div>
 
             {todayCheckedIn && (
-              <span className="badge badge-green" style={{ fontSize: '10px' }}>
+              <span className="badge badge-blue" style={{ fontSize: '10px' }}>
                 Done ✓
               </span>
             )}
@@ -550,8 +550,8 @@ export default function HomeDashboard() {
         <section 
           onClick={() => navigate('/reflection/new')}
           style={{
-            background: 'linear-gradient(135deg, #EBF3E8 0%, #DCE9D8 100%)',
-            border: '1px solid #C4DFC0',
+            background: 'linear-gradient(135deg, #EBF3FC 0%, #DCE8F7 100%)',
+            border: '1px solid #BDD6F0',
             borderRadius: 'var(--radius-lg)',
             padding: '16px',
             display: 'flex',

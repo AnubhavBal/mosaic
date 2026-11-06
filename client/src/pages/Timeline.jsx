@@ -260,11 +260,11 @@ export default function Timeline() {
                         key={i}
                         style={{
                           fontSize: '11px',
-                          background: '#F1F5F0',
-                          color: '#284534',
+                          background: 'var(--color-primary-light)',
+                          color: 'var(--color-primary)',
                           padding: '2px 8px',
                           borderRadius: '8px',
-                          fontWeight: 500,
+                          fontWeight: 600,
                         }}
                       >
                         {ch}

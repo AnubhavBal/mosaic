@@ -1,26 +1,33 @@
 :root {
-  --color-primary: #456C53;
-  --color-primary-dark: #32503d;
-  --color-primary-light: #E7EFE4;
-  --color-primary-subtle: #F0F5EE;
-  --color-bg: #F8F9F5;
-  --color-card: #FFFFFF;
-  --color-text: #1C3325;
-  --color-text-muted: #667085;
-  --color-border: #E5EBE2;
+  /* Be Bodywise Signature Palette */
+  --color-primary: #184B88;         /* Be Bodywise Signature Blue */
+  --color-primary-dark: #0F3260;    /* Deep Clinical Navy */
+  --color-primary-light: #EBF2FA;   /* Soft Ice Blue Tint */
+  --color-primary-subtle: #F4F8FD;  /* Structured Info Tint */
+  
+  /* Pure Clean White Canvas */
+  --color-bg: #F8FAFC;              /* Clean White Clinical Canvas */
+  --color-card: #FFFFFF;            /* Pure Clean White */
+  --color-text: #0F1E2E;            /* Authoritative Dark Blue/Black */
+  --color-text-muted: #64748B;      /* Slate Grey Secondary */
+  --color-border: #E2E8F0;          /* Crisp Clinical Hairline Border */
+
   --color-danger: #D9383A;
-  --color-danger-light: #FDE8E8;
+  --color-danger-light: #FEE2E2;
   --color-warning: #D97706;
   --color-warning-light: #FEF3C7;
   --color-success: #15803D;
   --color-success-light: #DCFCE7;
-  --shadow-sm: 0 1px 2px rgba(28, 51, 37, 0.05);
-  --shadow-md: 0 4px 12px -2px rgba(28, 51, 37, 0.08);
-  --shadow-lg: 0 12px 24px -4px rgba(28, 51, 37, 0.12);
+
+  --shadow-sm: 0 1px 3px rgba(15, 30, 46, 0.05);
+  --shadow-md: 0 4px 14px -2px rgba(24, 75, 136, 0.08);
+  --shadow-lg: 0 12px 28px -4px rgba(24, 75, 136, 0.12);
+
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 28px;
+
   --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -37,7 +44,7 @@ html, body {
   height: 100%;
   font-family: var(--font-body);
   color: var(--color-text);
-  background-color: #EBF0E9;
+  background-color: #EEF2F6;
   overflow: hidden;
   line-height: 1.5;
 }
@@ -49,7 +56,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-/* Desktop Outer Container - Nature Inspired Subtle Backdrop */
+/* Desktop Outer Container - Clean Slate Clinical Backdrop */
 .desktop-viewport-container {
   display: flex;
   justify-content: center;
@@ -57,22 +64,22 @@ h1, h2, h3, h4, h5, h6 {
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  background: radial-gradient(circle at 50% 20%, #E6EFE4 0%, #D8E4D5 60%, #CAD8C6 100%);
+  background: radial-gradient(circle at 50% 20%, #F1F5F9 0%, #E2E8F0 60%, #CBD5E1 100%);
   position: relative;
   overflow: hidden;
 }
 
-/* Subtle background wellness watermark graphic */
+/* Subtle background clinical glow */
 .desktop-viewport-container::before {
   content: "";
   position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(69, 108, 83, 0.08) 0%, transparent 70%);
+  width: 640px;
+  height: 640px;
+  background: radial-gradient(circle, rgba(24, 75, 136, 0.06) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
-  top: -100px;
-  right: -100px;
+  top: -120px;
+  right: -120px;
 }
 
 /* Desktop Mockup Phone Shell - strictly 430px max width */
@@ -83,12 +90,12 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 920px;
   background-color: var(--color-bg);
   border-radius: 44px;
-  box-shadow: 0 25px 60px -15px rgba(28, 51, 37, 0.3), 0 0 0 10px #1e2f24;
+  box-shadow: 0 25px 60px -15px rgba(15, 30, 46, 0.25), 0 0 0 10px #0F1E2E;
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 /* Simulated Phone Top Bezel / Dynamic Island on desktop */
@@ -101,11 +108,12 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   font-size: 13px;
   font-weight: 600;
-  color: #1C3325;
-  background: transparent;
+  color: #0F1E2E;
+  background: #FFFFFF;
   user-select: none;
   z-index: 50;
   position: relative;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
 }
 
 .dynamic-island {
@@ -115,7 +123,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 9px;
   width: 108px;
   height: 26px;
-  background: #111a14;
+  background: #0F1E2E;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -126,14 +134,14 @@ h1, h2, h3, h4, h5, h6 {
 .island-camera {
   width: 10px;
   height: 10px;
-  background: #090e0b;
+  background: #070D14;
   border-radius: 50%;
 }
 
 .island-sensor {
   width: 8px;
   height: 8px;
-  background: #19271e;
+  background: #192738;
   border-radius: 50%;
 }
 
@@ -147,6 +155,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-overflow-scrolling: touch;
   padding-bottom: 84px; /* Space for fixed bottom navigation */
   position: relative;
+  background-color: var(--color-bg);
 }
 
 /* Custom minimal scrollbar */
@@ -157,7 +166,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 .phone-content-viewport::-webkit-scrollbar-thumb {
-  background: rgba(69, 108, 83, 0.2);
+  background: rgba(24, 75, 136, 0.15);
   border-radius: 4px;
 }
 
@@ -180,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
     border: none !important;
   }
   .phone-top-bar {
-    display: none; /* Native mobile browsers have their own native status bars */
+    display: none;
   }
   .phone-content-viewport {
     padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
@@ -194,7 +203,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   height: 68px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--color-border);
@@ -253,7 +262,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 52px;
   max-width: 52px;
   border-radius: 50%;
-  box-shadow: 0 8px 18px rgba(69, 108, 83, 0.35);
+  box-shadow: 0 8px 20px rgba(24, 75, 136, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -264,7 +273,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(0.95);
 }
 
-/* Card components */
+/* Pure Clean White Card Component */
 .wellness-card {
   background: var(--color-card);
   border-radius: var(--radius-lg);
@@ -282,7 +291,26 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(0.99);
 }
 
-/* Primary buttons */
+/* Be Bodywise Structured Information Block */
+.bodywise-info-block {
+  background: var(--color-primary-subtle);
+  border: 1px solid #D0E1F3;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bodywise-info-title {
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Primary buttons in Be Bodywise Blue */
 .btn-primary {
   width: 100%;
   background: var(--color-primary);
@@ -299,7 +327,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(69, 108, 83, 0.25);
+  box-shadow: 0 4px 14px rgba(24, 75, 136, 0.25);
 }
 
 .btn-primary:hover {
@@ -311,7 +339,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:disabled {
-  background: #A0B3A6;
+  background: #93B0D4;
   box-shadow: none;
   cursor: not-allowed;
 }
@@ -319,8 +347,8 @@ h1, h2, h3, h4, h5, h6 {
 .btn-secondary {
   width: 100%;
   background: var(--color-primary-light);
-  color: var(--color-primary-dark);
-  border: 1px solid rgba(69, 108, 83, 0.2);
+  color: var(--color-primary);
+  border: 1px solid rgba(24, 75, 136, 0.2);
   border-radius: var(--radius-md);
   padding: 13px 20px;
   font-family: var(--font-heading);
@@ -335,12 +363,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary:hover {
-  background: #DCE8D8;
+  background: #DEEBF8;
 }
 
 .btn-outline {
   width: 100%;
-  background: transparent;
+  background: #FFFFFF;
   color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -354,7 +382,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-/* Input Fields */
+/* Clinical Input Fields */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -383,7 +411,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .input-field:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(69, 108, 83, 0.15);
+  box-shadow: 0 0 0 3px rgba(24, 75, 136, 0.15);
 }
 
 /* Badges */
@@ -399,9 +427,14 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.04em;
 }
 
+.badge-blue {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
 .badge-green {
   background: var(--color-primary-light);
-  color: var(--color-primary-dark);
+  color: var(--color-primary);
 }
 
 .badge-amber {
@@ -410,7 +443,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-gray {
-  background: #F1F4F1;
+  background: #F1F5F9;
   color: var(--color-text-muted);
 }
 
@@ -419,7 +452,7 @@ dialog:modal {
   overscroll-behavior: contain;
   border: none;
   border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 40px rgba(15, 30, 46, 0.25);
   padding: 0;
   max-width: 390px;
   width: 90%;
@@ -427,7 +460,7 @@ dialog:modal {
 }
 
 dialog::backdrop {
-  background: rgba(22, 36, 28, 0.65);
+  background: rgba(15, 30, 46, 0.65);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   overflow: hidden;

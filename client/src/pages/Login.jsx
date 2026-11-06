@@ -56,10 +56,10 @@ export default function Login() {
           fontSize: '24px',
           boxShadow: 'var(--shadow-sm)',
         }}>
-          🌿
+          💧
         </div>
         <h1 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--color-text)', letterSpacing: '-0.02em' }}>
-          Mosaic Wellness
+          Be Bodywise
         </h1>
         <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
           Personal Product Journey Tracker
