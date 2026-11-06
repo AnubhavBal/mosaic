@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { JourneyProvider } from './context/JourneyContext.jsx';
 import MobileLayout from './layouts/MobileLayout.jsx';
@@ -65,7 +65,7 @@ const PublicRoute = ({ children }) => {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AuthProvider>
         <JourneyProvider>
           <Routes>
@@ -95,6 +95,6 @@ export default function App() {
           </Routes>
         </JourneyProvider>
       </AuthProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
