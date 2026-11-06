@@ -53,10 +53,10 @@ export default function Register() {
 
     setLoading(false);
 
-    if (res.success) {
+    if (res?.success) {
       navigate('/');
     } else {
-      setErrorMsg(res.message);
+      setErrorMsg(res?.message || 'Registration failed. Please try again.');
     }
   };
 

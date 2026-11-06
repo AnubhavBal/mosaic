@@ -16,19 +16,20 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const storedToken = localStorage.getItem('mosaic_token');
-      if (storedToken) {
+      const storedUser = localStorage.getItem('mosaic_user');
+      if (storedToken && storedUser) {
         try {
+          const parsed = JSON.parse(storedUser);
+          setUser(parsed);
+          setToken(storedToken);
+          // Attempt silent validation/sync
           const res = await authAPI.getMe();
-          if (res.data.success) {
+          if (res?.data?.success && res.data.user) {
             setUser(res.data.user);
             localStorage.setItem('mosaic_user', JSON.stringify(res.data.user));
           }
         } catch (err) {
-          console.warn('Session expired or invalid token');
-          localStorage.removeItem('mosaic_token');
-          localStorage.removeItem('mosaic_user');
-          setUser(null);
-          setToken(null);
+          console.warn('Silent session validation fallback:', err);
         }
       }
       setLoading(false);
@@ -41,15 +42,18 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const res = await authAPI.login({ email, password });
-      if (res.data.success) {
+      if (res?.data?.success) {
         setToken(res.data.token);
         setUser(res.data.user);
         localStorage.setItem('mosaic_token', res.data.token);
         localStorage.setItem('mosaic_user', JSON.stringify(res.data.user));
-        return { success: true };
+        return { success: true, user: res.data.user };
       }
+      const failMsg = res?.data?.message || 'Failed to sign in. Please verify credentials.';
+      setError(failMsg);
+      return { success: false, message: failMsg };
     } catch (err) {
-      const msg = err.response?.data?.message || 'Failed to sign in. Please verify credentials.';
+      const msg = err.response?.data?.message || err.message || 'Failed to sign in. Please verify credentials.';
       setError(msg);
       return { success: false, message: msg };
     }
@@ -59,15 +63,18 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const res = await authAPI.register(userData);
-      if (res.data.success) {
+      if (res?.data?.success) {
         setToken(res.data.token);
         setUser(res.data.user);
         localStorage.setItem('mosaic_token', res.data.token);
         localStorage.setItem('mosaic_user', JSON.stringify(res.data.user));
-        return { success: true };
+        return { success: true, user: res.data.user };
       }
+      const failMsg = res?.data?.message || 'Registration failed. Please check your details.';
+      setError(failMsg);
+      return { success: false, message: failMsg };
     } catch (err) {
-      const msg = err.response?.data?.message || 'Registration failed. Please check your details.';
+      const msg = err.response?.data?.message || err.message || 'Registration failed. Please check your details.';
       setError(msg);
       return { success: false, message: msg };
     }

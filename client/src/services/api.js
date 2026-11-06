@@ -38,21 +38,44 @@ api.interceptors.response.use(
   }
 );
 
+const isStandalone = () => {
+  if (import.meta.env.VITE_API_URL) return false;
+  // If deployed to a public web domain (Vercel, GitHub Pages, Netlify) without explicit backend URL,
+  // run standalone in-browser mode directly with 0ms latency!
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return true;
+  }
+  return false;
+};
+
 // Safe executor that falls back to client mock storage if backend is unavailable/static
 const safeCall = async (apiFn, mockFn) => {
-  try {
-    return await apiFn();
-  } catch (error) {
-    // If backend is offline, unreachable, or 404 (static host), gracefully fallback to mockStorage
-    if (!error.response || error.code === 'ERR_NETWORK' || error.response.status === 404 || error.code === 'ECONNABORTED') {
-      try {
-        const mockData = await mockFn();
-        return { data: mockData, status: 200, statusText: 'OK' };
-      } catch (mockErr) {
-        throw { response: { data: { message: mockErr.message || 'Operation failed' } } };
-      }
+  // If running deployed without an external backend, use mockStorage directly
+  if (isStandalone()) {
+    try {
+      const mockData = await mockFn();
+      return { data: mockData, status: 200, statusText: 'OK' };
+    } catch (mockErr) {
+      throw { response: { data: { message: mockErr.message || 'Operation failed' } } };
     }
-    throw error;
+  }
+
+  try {
+    const res = await apiFn();
+    // If the server returned an HTML page (like SPA rewrites on Vercel), fall back to mockData
+    if (typeof res.data === 'string' && (res.data.trim().startsWith('<') || res.data.includes('<!DOCTYPE') || res.data.includes('<html'))) {
+      const mockData = await mockFn();
+      return { data: mockData, status: 200, statusText: 'OK' };
+    }
+    return res;
+  } catch (error) {
+    // If backend is offline, unreachable, or any HTTP error, seamlessly fallback to mockStorage
+    try {
+      const mockData = await mockFn();
+      return { data: mockData, status: 200, statusText: 'OK' };
+    } catch (mockErr) {
+      throw { response: { data: { message: mockErr.message || 'Operation failed' } } };
+    }
   }
 };
 
@@ -113,7 +136,11 @@ export const productsAPI = {
       () => api.get('/products', { params }),
       () => mockStorage.getProducts()
     ),
-  getProductById: (id) => api.get(`/products/${id}`),
+  getProductById: (id) =>
+    safeCall(
+      () => api.get(`/products/${id}`),
+      () => mockStorage.getProductById(id)
+    ),
 };
 
 // JOURNEYS
@@ -124,7 +151,11 @@ export const journeysAPI = {
       () => mockStorage.getJourneys(getCurrentUserId())
     ),
 
-  getJourneyById: (id) => api.get(`/journeys/${id}`),
+  getJourneyById: (id) =>
+    safeCall(
+      () => api.get(`/journeys/${id}`),
+      () => mockStorage.getJourneyById(id)
+    ),
 
   createJourney: (data) =>
     safeCall(
@@ -162,7 +193,11 @@ export const checkinsAPI = {
       () => mockStorage.getCheckins(getCurrentUserId(), params)
     ),
 
-  getCheckinById: (id) => api.get(`/checkins/${id}`),
+  getCheckinById: (id) =>
+    safeCall(
+      () => api.get(`/checkins/${id}`),
+      () => mockStorage.getCheckinById(id)
+    ),
 
   deleteCheckin: (id) =>
     safeCall(
@@ -209,7 +244,11 @@ export const reflectionsAPI = {
       () => mockStorage.getReflections(getCurrentUserId(), params)
     ),
 
-  getReflectionById: (id) => api.get(`/reflections/${id}`),
+  getReflectionById: (id) =>
+    safeCall(
+      () => api.get(`/reflections/${id}`),
+      () => mockStorage.getReflectionById(id)
+    ),
 };
 
 // NOTIFICATIONS

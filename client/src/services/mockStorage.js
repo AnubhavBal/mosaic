@@ -88,41 +88,53 @@ export const initClientStorage = () => {
     localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(defaultProducts));
   }
 
-  // Pre-seed demo customer if not initialized
-  if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
-    const demoUser = {
-      id: 'usr_demo_1',
-      name: 'Aanya Sharma',
-      email: 'customer@mosaicwellness.com',
-      phone: '+919812345678',
-      role: 'user',
-      notificationPreferences: {
-        dailyReminders: true,
-        weeklyReflections: true,
-        milestoneAlerts: true,
-        browserEnabled: false,
-      },
-      createdAt: new Date(Date.now() - 10 * 86400000).toISOString(),
-    };
+  // Pre-seed demo users if not present
+  let existingUsers = [];
+  try {
+    existingUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || '[]');
+  } catch (e) {
+    existingUsers = [];
+  }
 
-    const adminUser = {
-      id: 'usr_admin_1',
-      name: 'Be Bodywise Admin',
-      email: 'admin@mosaicwellness.com',
-      phone: '+919876543210',
-      role: 'admin',
-      notificationPreferences: {
-        dailyReminders: true,
-        weeklyReflections: true,
-        milestoneAlerts: true,
-        browserEnabled: false,
-      },
-      createdAt: new Date().toISOString(),
-    };
+  const hasCustomer = existingUsers.some((u) => u.email === 'customer@mosaicwellness.com');
+  const hasAdmin = existingUsers.some((u) => u.email === 'admin@mosaicwellness.com');
 
-    localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify([demoUser, adminUser]));
+  const demoUser = {
+    id: 'usr_demo_1',
+    name: 'Aanya Sharma',
+    email: 'customer@mosaicwellness.com',
+    phone: '+919812345678',
+    role: 'user',
+    notificationPreferences: {
+      dailyReminders: true,
+      weeklyReflections: true,
+      milestoneAlerts: true,
+      browserEnabled: false,
+    },
+    createdAt: new Date(Date.now() - 10 * 86400000).toISOString(),
+  };
 
-    // Seed Demo Journey
+  const adminUser = {
+    id: 'usr_admin_1',
+    name: 'Be Bodywise Admin',
+    email: 'admin@mosaicwellness.com',
+    phone: '+919876543210',
+    role: 'admin',
+    notificationPreferences: {
+      dailyReminders: true,
+      weeklyReflections: true,
+      milestoneAlerts: true,
+      browserEnabled: false,
+    },
+    createdAt: new Date().toISOString(),
+  };
+
+  if (!hasCustomer) existingUsers.unshift(demoUser);
+  if (!hasAdmin) existingUsers.push(adminUser);
+  localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(existingUsers));
+
+  // Seed Demo Journey if not initialized
+  if (!localStorage.getItem(STORAGE_KEYS.JOURNEYS)) {
     const startDate = new Date(Date.now() - 10 * 86400000);
     const demoJourney = {
       _id: 'jrn_demo_1',
@@ -235,19 +247,20 @@ export const mockStorage = {
   // AUTH
   login: async ({ email, password }) => {
     initClientStorage();
+    const cleanEmail = (email || '').trim().toLowerCase();
     const users = getItems(STORAGE_KEYS.USERS);
-    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    let user = users.find((u) => u.email.toLowerCase() === cleanEmail);
     if (user) {
       const token = `mock_jwt_token_${user.id}_${Date.now()}`;
       return { success: true, token, user };
     }
     // Auto-create or allow password
-    if (email.includes('@')) {
+    if (cleanEmail && cleanEmail.includes('@')) {
       const newUser = {
         id: `usr_${Date.now()}`,
-        name: email.split('@')[0],
-        email: email.toLowerCase(),
-        role: email.includes('admin') ? 'admin' : 'user',
+        name: cleanEmail.split('@')[0],
+        email: cleanEmail,
+        role: cleanEmail.includes('admin') ? 'admin' : 'user',
         notificationPreferences: { dailyReminders: true, weeklyReflections: true, milestoneAlerts: true },
         createdAt: new Date().toISOString(),
       };
@@ -256,7 +269,7 @@ export const mockStorage = {
       const token = `mock_jwt_token_${newUser.id}_${Date.now()}`;
       return { success: true, token, user: newUser };
     }
-    throw new Error('Invalid email or credentials');
+    throw new Error('Please enter a valid email address.');
   },
 
   register: async (userData) => {
@@ -264,7 +277,9 @@ export const mockStorage = {
     const users = getItems(STORAGE_KEYS.USERS);
     const existing = users.find((u) => u.email.toLowerCase() === userData.email.toLowerCase());
     if (existing) {
-      throw new Error('An account with this email address already exists.');
+      // If user already exists, log them right in
+      const token = `mock_jwt_token_${existing.id}_${Date.now()}`;
+      return { success: true, token, user: existing };
     }
     const newUser = {
       id: `usr_${Date.now()}`,
@@ -285,6 +300,12 @@ export const mockStorage = {
   getProducts: async () => {
     initClientStorage();
     return { success: true, count: defaultProducts.length, products: defaultProducts };
+  },
+
+  getProductById: async (id) => {
+    initClientStorage();
+    const product = defaultProducts.find((p) => p._id === id) || defaultProducts[0];
+    return { success: true, product };
   },
 
   // JOURNEYS
@@ -345,6 +366,13 @@ export const mockStorage = {
     journeys.unshift(newJourney);
     setItems(STORAGE_KEYS.JOURNEYS, journeys);
     return { success: true, journey: newJourney };
+  },
+
+  getJourneyById: async (journeyId) => {
+    initClientStorage();
+    const journeys = getItems(STORAGE_KEYS.JOURNEYS);
+    const journey = journeys.find((j) => j._id === journeyId) || journeys[0];
+    return { success: true, journey };
   },
 
   updateJourney: async (journeyId, data) => {
@@ -472,6 +500,13 @@ export const mockStorage = {
     return { success: true };
   },
 
+  getCheckinById: async (checkinId) => {
+    initClientStorage();
+    const checkins = getItems(STORAGE_KEYS.CHECKINS);
+    const checkin = checkins.find((c) => c._id === checkinId) || checkins[0];
+    return { success: Boolean(checkin), checkin };
+  },
+
   // PHOTOS
   getPhotos: async (userId, params = {}) => {
     initClientStorage();
@@ -524,6 +559,13 @@ export const mockStorage = {
     }
     setItems(STORAGE_KEYS.REFLECTIONS, reflections);
     return { success: true, reflection, isUpdate };
+  },
+
+  getReflectionById: async (reflectionId) => {
+    initClientStorage();
+    const reflections = getItems(STORAGE_KEYS.REFLECTIONS);
+    const reflection = reflections.find((r) => r._id === reflectionId) || reflections[0];
+    return { success: Boolean(reflection), reflection };
   },
 
   // NOTIFICATIONS

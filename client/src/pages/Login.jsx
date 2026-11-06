@@ -25,17 +25,27 @@ export default function Login() {
     const res = await login(email, password);
     setLoading(false);
 
-    if (res.success) {
+    if (res?.success) {
       navigate('/');
     } else {
-      setErrorMsg(res.message);
+      setErrorMsg(res?.message || 'Failed to sign in. Please verify credentials.');
     }
   };
 
-  const fillDemo = (demoEmail, demoPass) => {
+  const handleQuickLogin = async (demoEmail, demoPass) => {
     setEmail(demoEmail);
     setPassword(demoPass);
     setErrorMsg('');
+    setLoading(true);
+
+    const res = await login(demoEmail, demoPass);
+    setLoading(false);
+
+    if (res?.success) {
+      navigate('/');
+    } else {
+      setErrorMsg(res?.message || 'Failed to sign in with demo credentials.');
+    }
   };
 
   return (
@@ -137,17 +147,19 @@ export default function Login() {
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
               type="button"
-              onClick={() => fillDemo('customer@mosaicwellness.com', 'Customer@123')}
+              disabled={loading}
+              onClick={() => handleQuickLogin('customer@mosaicwellness.com', 'Customer@123')}
               className="btn-secondary"
-              style={{ flex: 1, padding: '7px 8px', fontSize: '11px' }}
+              style={{ flex: 1, padding: '7px 8px', fontSize: '11px', fontWeight: 600 }}
             >
               Demo Customer
             </button>
             <button
               type="button"
-              onClick={() => fillDemo('admin@mosaicwellness.com', 'Admin@123')}
+              disabled={loading}
+              onClick={() => handleQuickLogin('admin@mosaicwellness.com', 'Admin@123')}
               className="btn-secondary"
-              style={{ flex: 1, padding: '7px 8px', fontSize: '11px' }}
+              style={{ flex: 1, padding: '7px 8px', fontSize: '11px', fontWeight: 600 }}
             >
               Demo Admin
             </button>
